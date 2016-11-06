@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link href='/node_modules/bootstrap/dist/css/bootstrap.min.css' rel='stylesheet' type='text/css'> 
+<style>
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #525252;
+  text-align: center;
+  width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #B3B3B3;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-size: 8px;
+    fill: #6B6B6B;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    max-width: 120px;
+    /* background&#45;color: rgba(0, 0, 0, 0.8); */
+    background-color: black;
+    color: #fff;
+    text-align: left;
+    padding: 5px 0;
+    /*border-radius: 6px;*/
+    font-size: 14px;
+ 
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* bottom */
+.tooltipbottom::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+/*top*/
+.tooltiptop::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;  /* At the top of the tooltip */
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}
+
+.tooltip::after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    right: 100%; /* To the left of the tooltip */
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+}
+
+.tooltipright::after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    left: 100%; /* To the right of the tooltip */
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent black;
+}
+
+.d3-tip {
+  pointer-events: none;
+  line-height: 2;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 14px;
+}
+ 
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 14px;
+  width: 100%;
+  line-height: 2;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+ 
+    /* Style northward tooltips specifically */
+    .d3-tip.n:after {
+      margin: -2px 0 0 0;
+      top: 100%;
+      left: 0;
+    }
+
+</style>
+<body>
+
+    <div id="cont" class="container-fluid center-text">
+        <div class="row">
+            <input type="button" class="btn btn-default btn-sm" value="toggle directed" onclick="net.toggle_directed()" />
+            <input type="button" class="btn btn-default btn-sm" value="toggle tooltips" onclick="net.toggle_tooltips()" />
+            <input type="button" class="btn btn-default btn-sm" value="annimate" onclick="net.annimate()" />
+        </div>    
+        <div class="row"> 
+            <div id="graph" class="col-sm-6" style="width:450px"></div>
+            <div id="line" class="col-sm-6"  style="width:450px;height:400px;"></div>
+        </div>
+    </div>
+    
+    <script src="/node_modules/lodash/lodash.min.js"></script>    
+    <script src="/node_modules/d3/build/d3.min.js"></script>    
+    <script src="/dist/plotly-latest.min.js"></script>    
+    <script src="/node_modules/d3-scale-chromatic/build/d3-scale-chromatic.min.js"></script>
+    <script src="/dist/network.min.js"></script>
+
+    
+    <script>    
+        var net;
+
+        d3.json("/dist/case9_data.json", function(error, data) {
+            if (error) throw error;
+
+            console.log(_.keys(data));
+
+            data['graph_options']['id'] = '#graph'
+            data['data_options']['id'] = '#line'
+
+            net = network(data['graph'], data['graph_options'], data['data'], data['data_options']);
+            net();
+
+
+
+        });
+
+
+
+    </script>
+
+</body>

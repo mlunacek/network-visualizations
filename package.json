@@ -1,0 +1,45 @@
+{
+  "bugs": {
+    "url": "https://github.com/mlunacek/nations-rollup/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mlunacek/nations-rollup.git"
+  },
+  "main": "dist/nations.min.js",
+  "devDependencies": {
+    "rollup-plugin-commonjs": "^5.0.5",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "livereload": "^0.5.0",
+    "rollup": "^0.36.3",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-uglify": "^1.0.1",
+    "rollup-plugin-eslint": "^3.0.0",
+    "babel-preset-es2015-rollup": "^1.2.0",
+    "rollup-watch": "^2.5.0"
+  },
+  "author": "Monte Lunacek",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "d3": "^4.2.7",
+    "d3-scale-chromatic": "^1.0.2",
+    "d3-tip": "^0.7.1",
+    "debug": "^2.2.0",
+    "http-server": "^0.9.0",
+    "loadash": "0.0.1",
+    "lr-http-server": "^0.1.5",
+    "npm-run-all": "^3.1.0"
+  },
+  "version": "0.0.0",
+  "name": "nations-rollup",
+  "license": "ISC",
+  "scripts": {
+    "dev": "rollup -c --watch",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "reload": "livereload 'build/'",
+    "watch": "npm-run-all --parallel start dev",
+    "start": "lr-http-server"
+  },
+  "description": "Example of using d3 and rollup"
+}

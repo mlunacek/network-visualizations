@@ -1,0 +1,98 @@
+<style>
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #B3B3B3;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-size: 10px;
+    fill: #6B6B6B;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    max-width: 120px;
+    /* background&#45;color: rgba(0, 0, 0, 0.8); */
+    background-color: black;
+    color: #fff;
+    text-align: left;
+    padding: 5px 0;
+    /*border-radius: 6px;*/
+    font-size: 14px;
+ 
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.tooltip::after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    right: 100%; /* To the left of the tooltip */
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+}
+
+
+</style>
+<div class="row">
+    <input type="button" class="btn btn-default btn-sm" value="toggle directed" onclick="net_{{id}}.toggle_directed()" />
+    {% if data is defined %}
+    <input type="button" class="btn btn-default btn-sm" value="toggle tooltips" onclick="net_{{id}}.toggle_tooltips()" />
+    <input type="button" class="btn btn-default btn-sm" value="annimate" onclick="net_{{id}}.annimate()" />
+    {% endif %}
+</div>    
+<div class="row">
+    {% if data is defined %}
+    <div id="graph_{{id}}"class="col-sm-6"></div>
+    <div id="line_{{id}}" class="col-sm-6"></div>
+    {% else %}
+    <div id="graph_{{id}}"class="col-sm-12"></div>
+    {% endif %}
+</div>  
+
+<script>
+ // This doesn't embed the code, just loads from nbextenstions
+ // Work on embedding for export to html
+ var net_{{id}};
+
+ require.config({
+    paths: {
+        "d3": "/nbextensions/d3.min",
+        "_": "/nbextensions/lodash.min",
+        "plotly": "/nbextensions/plotly-latest.min",
+        "network": "/nbextensions/network.min",
+     }
+ });
+  require.undef("network");
+  require.undef("d3");
+  require(["d3", "_", "plotly", "network"], function(d3, _, Plotly, network) {
+    
+      var graph = {{graph}};
+      var graph_options = {{graph_options}};
+      {% if data is defined %}
+      var data = {{data}};
+      var data_options = {{data_options}};
+      {%else%}
+      var data = {};
+      var data_options = {};  
+      {% endif %}
+      
+      window.d3 = d3;
+      window._ = _;
+      window.Plotly = Plotly;
+      window.network = network;
+
+      graph_options['id'] = '#graph_{{id}}';
+      data_options['id'] = '#line_{{id}}';
+        
+      net_{{id}} = network(graph, graph_options, data, data_options);
+      net_{{id}}();
+  });
+</script>
